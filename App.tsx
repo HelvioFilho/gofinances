@@ -26,8 +26,8 @@ export default function App() {
   return (
     <ThemeProvider theme={theme}>
       {/* <Dashboard /> */}
-      {/* <Register /> */}
-      <CategorySelect />
+      <Register />
+      {/* <CategorySelect /> */}
     </ThemeProvider>
   )
 }

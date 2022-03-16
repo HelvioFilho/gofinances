@@ -8,11 +8,14 @@ import {
 
 interface DataCategory {
   title: string;
+  onPress: () => void;
 }
 
-export function CategorySelect({ title }: DataCategory) {
+export function CategorySelectButton({ title, onPress }: DataCategory) {
   return (
-    <Container>
+    <Container
+      onPress={onPress}
+    >
       <Category>{title}</Category>
       <Icon name="chevron-down" />
     </Container>
