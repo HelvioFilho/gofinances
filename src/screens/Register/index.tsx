@@ -3,6 +3,7 @@ import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Button } from '../../components/Form/Button';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
@@ -64,7 +65,7 @@ export function Register() {
     setCategoryModalOpen(false);
   }
 
-  function handleRegister(form: Partial<DataForm>) {
+  async function handleRegister(form: Partial<DataForm>) {
     if (!transactionType)
       return Alert.alert('Selecione o tipo da transação');
 
@@ -77,7 +78,14 @@ export function Register() {
       transactionType,
       category: category.key
     }
-    console.log(data);
+
+    try {
+      const dataKey = '@gofinances:transactions';
+      await AsyncStorage.setItem(dataKey, JSON.stringify(data));
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Não foi possível salvar");
+    }
   }
 
   return (

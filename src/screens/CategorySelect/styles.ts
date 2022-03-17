@@ -2,6 +2,7 @@ import styled from 'styled-components/native';
 import { Feather } from '@expo/vector-icons';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as Device from 'expo-device';
 
 interface CategoryProps {
   isActive: boolean;
@@ -14,7 +15,7 @@ export const Container = styled(GestureHandlerRootView)`
 
 export const Header = styled.View`
   width: 100%;
-  height: ${RFValue(80)}px;
+  height: ${Device.manufacturer === "Xiaomi" ? RFValue(80) : Device.brand === "Apple" ? RFValue(113) : RFValue(93)}px;
   background-color: ${({ theme }) => theme.colors.primary};
   align-items: center;
   justify-content: flex-end;

@@ -9,7 +9,10 @@ interface DataButtonProps extends TouchableOpacityProps {
 
 export function Button({ title, ...rest }: DataButtonProps) {
   return (
-    <Container {...rest}>
+    <Container
+      activeOpacity={0.8}
+      {...rest}
+    >
       <Title>{title}</Title>
     </Container>
   );

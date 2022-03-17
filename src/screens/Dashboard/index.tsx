@@ -16,10 +16,11 @@ import {
   Title,
   TransactionList,
 } from './styles';
-
 export interface DataListProps extends TransactionCardDataProps {
   id: string;
 }
+
+
 
 export function Dashboard() {
   const data: DataListProps[] = [
