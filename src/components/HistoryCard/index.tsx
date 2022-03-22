@@ -13,6 +13,7 @@ interface HistoryCardProps {
 }
 
 export function HistoryCard({ title, color, amount }: HistoryCardProps) {
+
   return (
     <Container color={color}>
       <Title>{title}</Title>

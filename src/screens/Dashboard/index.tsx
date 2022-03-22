@@ -66,12 +66,12 @@ export function Dashboard() {
     const response = await AsyncStorage.getItem(dataKey);
     const transactions = response ? JSON.parse(response) : [];
     let entriesTotal = 0;
-    let expensiveTotal = 0;
+    let expensesTotal = 0;
 
     const transactionsFormatted: TransactionProps[] = transactions.map(
       (item: TransactionProps) => {
 
-        item.type === 'up' ? entriesTotal += Number(item.amount) : expensiveTotal += Number(item.amount);
+        item.type === 'up' ? entriesTotal += Number(item.amount) : expensesTotal += Number(item.amount);
 
         const amount = Number(item.amount)
           .toLocaleString('pt-BR', {
@@ -97,7 +97,7 @@ export function Dashboard() {
     setTransactions(transactionsFormatted);
 
     const lastTransactionEntries = getLastTransitionDate(transactions, 'up');
-    const lastTransactionExpensive = getLastTransitionDate(transactions, 'down');
+    const lastTransactionExpenses = getLastTransitionDate(transactions, 'down');
     const totalInterval = `01 a ${lastTransactionEntries}`;
 
     setHighlightData({
@@ -109,14 +109,14 @@ export function Dashboard() {
         lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
       },
       expenses: {
-        amount: expensiveTotal.toLocaleString('pt-BR', {
+        amount: expensesTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: `Última saída dia ${lastTransactionExpensive}`,
+        lastTransaction: `Última saída dia ${lastTransactionExpenses}`,
       },
       total: {
-        amount: (entriesTotal - expensiveTotal).toLocaleString('pt-BR', {
+        amount: (entriesTotal - expensesTotal).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
