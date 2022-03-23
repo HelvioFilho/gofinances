@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Text } from 'react-native';
 import { HighlightCard } from '../../components/HighlightCard';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -48,17 +48,21 @@ export function Dashboard() {
     collection: TransactionProps[],
     type: 'up' | 'down'
   ) {
-    const lastTransaction = new Date(
-      Math.max.apply(Math, collection
-        .filter(transaction => transaction.type === type)
-        .map(transaction => new Date(transaction.date).getTime())
-      )
-    );
+    if (collection.length > 0) {
+      const lastTransaction = new Date(
+        Math.max.apply(Math, collection
+          .filter(transaction => transaction.type === type)
+          .map(transaction => new Date(transaction.date).getTime())
+        )
+      );
 
-    return Intl.DateTimeFormat('pt-BR', {
-      day: '2-digit',
-      month: 'long',
-    }).format(lastTransaction);
+      return Intl.DateTimeFormat('pt-BR', {
+        day: '2-digit',
+        month: 'long',
+      }).format(lastTransaction);
+    } else {
+      return 0;
+    }
   }
 
   async function loadTransactions() {
@@ -94,11 +98,12 @@ export function Dashboard() {
         }
       }
     );
+
     setTransactions(transactionsFormatted);
 
     const lastTransactionEntries = getLastTransitionDate(transactions, 'up');
     const lastTransactionExpenses = getLastTransitionDate(transactions, 'down');
-    const totalInterval = `01 a ${lastTransactionEntries}`;
+    const totalInterval = lastTransactionEntries === 0 ? 'ainda não houve entrada de saldo' : `01 a ${lastTransactionEntries}`;
 
     setHighlightData({
       entries: {
@@ -106,14 +111,14 @@ export function Dashboard() {
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: `Última entrada dia ${lastTransactionEntries}`,
+        lastTransaction: lastTransactionEntries === 0 ? ' - ' : `Última entrada dia ${lastTransactionEntries}`,
       },
       expenses: {
         amount: expensesTotal.toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
         }),
-        lastTransaction: `Última saída dia ${lastTransactionExpenses}`,
+        lastTransaction: lastTransactionExpenses === 0 ? ' - ' : `Última saída dia ${lastTransactionExpenses}`,
       },
       total: {
         amount: (entriesTotal - expensesTotal).toLocaleString('pt-BR', {
@@ -123,6 +128,7 @@ export function Dashboard() {
         lastTransaction: totalInterval,
       },
     });
+
     setIsLoading(false);
   }
 
@@ -137,7 +143,6 @@ export function Dashboard() {
 
   return (
     <Container>
-
       {
         isLoading
           ?
@@ -172,7 +177,7 @@ export function Dashboard() {
                 type="down"
                 title="Saídas"
                 amount={highlightData.expenses.amount}
-                lastTransaction={highlightData.entries.lastTransaction}
+                lastTransaction={highlightData.expenses.lastTransaction}
               />
               <HighlightCard
                 type="total"
@@ -186,13 +191,23 @@ export function Dashboard() {
               <Title>
                 Listagem
               </Title>
-              <TransactionList
-                data={transactions}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) =>
-                  <TransactionCard data={item} />
-                }
-              />
+              {
+                transactions.length > 0
+                  ?
+                  <TransactionList
+                    data={transactions}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) =>
+                      <TransactionCard data={item} />
+                    }
+                  />
+                  :
+                  <Text>
+                    Nenhum item cadastrado no momento!
+                  </Text>
+
+              }
+
             </Transactions>
           </>
       }

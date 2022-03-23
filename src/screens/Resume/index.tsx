@@ -3,7 +3,9 @@ import { HistoryCard } from '../../components/HistoryCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { VictoryPie } from 'victory-native';
 import { RFValue } from 'react-native-responsive-fontsize';
+
 import { useTheme } from 'styled-components';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 import {
   Container,
@@ -104,7 +106,12 @@ export function Resume() {
           y="total"
         />
       </ChartContainer>
-      <Content>
+      <Content
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{
+          padding: 24
+        }}
+      >
         {
           totalByCategories.map(item => (
             <HistoryCard
