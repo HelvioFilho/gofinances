@@ -12,8 +12,6 @@ import {
   Date,
 } from './styles';
 
-
-
 export interface TransactionCardDataProps {
   type: 'up' | 'down';
   name: string;

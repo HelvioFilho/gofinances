@@ -48,21 +48,16 @@ export function Dashboard() {
     collection: TransactionProps[],
     type: 'up' | 'down'
   ) {
-    if (collection.length > 0) {
-      const lastTransaction = new Date(
-        Math.max.apply(Math, collection
-          .filter(transaction => transaction.type === type)
-          .map(transaction => new Date(transaction.date).getTime())
-        )
-      );
-
-      return Intl.DateTimeFormat('pt-BR', {
-        day: '2-digit',
-        month: 'long',
-      }).format(lastTransaction);
-    } else {
-      return 0;
-    }
+    const lastTransaction = new Date(
+      Math.max.apply(Math, collection
+        .filter(transaction => transaction.type === type)
+        .map(transaction => new Date(transaction.date).getTime())
+      )
+    );
+    return Intl.DateTimeFormat('pt-BR', {
+      day: '2-digit',
+      month: 'long',
+    }).format(lastTransaction);
   }
 
   async function loadTransactions() {
@@ -101,8 +96,8 @@ export function Dashboard() {
 
     setTransactions(transactionsFormatted);
 
-    const lastTransactionEntries = getLastTransitionDate(transactions, 'up');
-    const lastTransactionExpenses = getLastTransitionDate(transactions, 'down');
+    const lastTransactionEntries = entriesTotal > 0 ? getLastTransitionDate(transactions, 'up') : 0;
+    const lastTransactionExpenses = expensesTotal > 0 ? getLastTransitionDate(transactions, 'down') : 0;
     const totalInterval = lastTransactionEntries === 0 ? 'ainda não houve entrada de saldo' : `01 a ${lastTransactionEntries}`;
 
     setHighlightData({
@@ -205,9 +200,7 @@ export function Dashboard() {
                   <Text>
                     Nenhum item cadastrado no momento!
                   </Text>
-
               }
-
             </Transactions>
           </>
       }

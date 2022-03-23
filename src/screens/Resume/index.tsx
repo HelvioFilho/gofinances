@@ -5,7 +5,6 @@ import { VictoryPie } from 'victory-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
 import { useTheme } from 'styled-components';
-import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs'
 
 import {
   Container,
