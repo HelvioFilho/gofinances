@@ -12,6 +12,10 @@ import {
   Title,
   Content,
   ChartContainer,
+  MonthSelect,
+  MonthSelectButton,
+  MonthSelectIcon,
+  Month,
 } from './styles';
 import { categories } from '../../utils/categories';
 
@@ -89,28 +93,37 @@ export function Resume() {
       <Header>
         <Title>Resumo por categoria</Title>
       </Header>
-      <ChartContainer>
-        <VictoryPie
-          data={totalByCategories}
-          colorScale={totalByCategories.map(category => category.color)}
-          style={{
-            labels: {
-              fontSize: RFValue(18),
-              fontWeight: 'bold',
-              fill: theme.colors.shape,
-            }
-          }}
-          labelRadius={60}
-          x="percent"
-          y="total"
-        />
-      </ChartContainer>
       <Content
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           padding: 24
         }}
       >
+        <MonthSelect>
+          <MonthSelectButton>
+            <MonthSelectIcon name="chevron-left" />
+          </MonthSelectButton>
+          <Month>Maio</Month>
+          <MonthSelectButton>
+            <MonthSelectIcon name="chevron-right" />
+          </MonthSelectButton>
+        </MonthSelect>
+        <ChartContainer>
+          <VictoryPie
+            data={totalByCategories}
+            colorScale={totalByCategories.map(category => category.color)}
+            style={{
+              labels: {
+                fontSize: RFValue(18),
+                fontWeight: 'bold',
+                fill: theme.colors.shape,
+              }
+            }}
+            labelRadius={60}
+            x="percent"
+            y="total"
+          />
+        </ChartContainer>
         {
           totalByCategories.map(item => (
             <HistoryCard
