@@ -15,6 +15,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import theme from './src/global/styles/theme';
 import AppLoading from 'expo-app-loading';
 import { AppRoutes } from './src/routes/app.routes';
+import { SignIn } from './src/screens/SignIn';
 
 export default function App() {
 
@@ -33,7 +34,8 @@ export default function App() {
           barStyle="light-content"
           backgroundColor={theme.colors.primary}
         />
-        <AppRoutes />
+        {/* <AppRoutes /> */}
+        <SignIn />
       </NavigationContainer>
     </ThemeProvider>
   )

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator } from 'react-native';
 import { HistoryCard } from '../../components/HistoryCard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -21,6 +21,7 @@ import {
   LoadContainer,
 } from './styles';
 import { categories } from '../../utils/categories';
+import { useFocusEffect } from '@react-navigation/native';
 
 interface TransactionData {
   type: 'up' | 'down';
@@ -40,13 +41,12 @@ interface CategoryData {
 }
 
 export function Resume() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
   const theme = useTheme();
 
   function handleDateChange(action: 'next' | 'prev') {
-    setIsLoading(true);
     if (action === 'next') {
       setSelectedDate(addMonths(selectedDate, 1));
     } else {
@@ -55,6 +55,7 @@ export function Resume() {
   }
 
   async function loadData() {
+    setIsLoading(true);
     const dataKey = '@gofinances:transactions';
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
@@ -102,10 +103,9 @@ export function Resume() {
     setIsLoading(false);
   }
 
-
-  useEffect(() => {
+  useFocusEffect(useCallback(() => {
     loadData();
-  }, [selectedDate]);
+  }, [selectedDate]));
 
   return (
     <Container>

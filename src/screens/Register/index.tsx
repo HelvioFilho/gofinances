@@ -43,9 +43,9 @@ const schema = Yup.object().shape({
   amount: Yup
     .number()
     .transform((_value, originalValue) => Number(originalValue.replace(/,/, '.')))
-    .typeError('Informe um valor numérico')
-    .positive('O valor não pode ser negativo')
-    .required('Nome é obrigatório'),
+    .typeError('Informe um preço numérico')
+    .positive('O preço não pode ser negativo')
+    .required('Preço é obrigatório'),
 });
 
 export function Register() {
