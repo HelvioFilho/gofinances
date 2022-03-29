@@ -8,6 +8,7 @@ export const Container = styled.View`
 export const Header = styled.View`
   width: 100%;
   height: 70%;
+  padding-top: ${RFValue(55)}px;
 
   background-color: ${({ theme }) => theme.colors.primary};
   
@@ -45,4 +46,11 @@ export const Footer = styled.View`
   height: 30%;
 
   background-color: ${({ theme }) => theme.colors.secondary};
+`;
+
+export const FooterWrapper = styled.View`
+  margin-top: ${RFValue(-26)}px;
+  padding: 0 32px;
+
+  justify-content: space-between;
 `;
