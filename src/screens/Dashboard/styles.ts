@@ -38,6 +38,8 @@ export const Photo = styled.Image`
   border-radius: 10px;
 `;
 
+export const LogoutButton = styled.TouchableOpacity``;
+
 export const User = styled.View`
   margin-left: 17px;
 `;
