@@ -8,7 +8,6 @@ import LogoSvg from '../../assets/logo.svg';
 import { SingInSocialButton } from '../../components/SingInSocialButton';
 import { useAuth } from '../../hooks/auth';
 
-
 import {
   Container,
   Header,
