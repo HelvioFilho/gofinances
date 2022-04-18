@@ -16,7 +16,6 @@ interface SignInProps extends TouchableOpacityProps {
 export function SingInSocialButton({ title, svg: Svg, ...rest }: SignInProps) {
   return (
     <Button
-      activeOpacity={0.8}
       {...rest}
     >
       <ImageContainer>

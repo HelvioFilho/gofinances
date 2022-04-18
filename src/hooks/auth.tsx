@@ -3,6 +3,7 @@ import { createContext, ReactNode, useContext, useEffect, useState } from 'react
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as SecureStore from 'expo-secure-store';
 
 const { CLIENT_ID } = process.env;
 const { REDIRECT_URI } = process.env;
@@ -31,6 +32,15 @@ interface AuthorizationResponse {
     access_token: string;
   };
   type: string;
+}
+interface DataApple {
+  id: string;
+  name: string;
+  email: string;
+}
+
+interface StoreDataApple {
+  [id: string]: DataApple
 }
 
 const AuthContext = createContext({} as AuthContextData);
@@ -75,19 +85,49 @@ function AuthProvider({ children }: AuthProviderProps) {
           AppleAuthentication.AppleAuthenticationScope.EMAIL,
         ]
       });
-      if (credential) {
-        const name = credential.fullName!.givenName!;
-        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
 
-        const userLogged = {
-          id: String(credential.user),
-          email: credential.email!,
-          name,
-          photo,
+      const secureKey = 'goFinancesApple';
+      const secureData = await SecureStore.getItemAsync(secureKey);
+      const secureCurrentData = secureData ? (JSON.parse(secureData) as StoreDataApple) : {} as StoreDataApple;
+      let data: DataApple = {} as DataApple;
+
+      const checkId = Object.keys(secureCurrentData)
+        .filter((id) => id === String(credential.user))
+        .map((info) => {
+          return { ...secureCurrentData[info], id: info }
+        });
+
+      if (checkId.length > 0) {
+        data = {
+          id: checkId[0].id,
+          name: checkId[0].name,
+          email: checkId[0].email
         }
-        setUser(userLogged);
-        await AsyncStorage.setItem(userStoredKey, JSON.stringify(userLogged));
+      } else {
+        data = {
+          id: String(credential.user),
+          name: credential.fullName!.givenName!,
+          email: credential.email!
+        }
+
+        const secureStoreData = {
+          ...secureCurrentData,
+          [String(credential.user)]: {
+            name: data.name,
+            email: data.email,
+          }
+        }
+        await SecureStore.setItemAsync(secureKey, JSON.stringify(secureStoreData));
       }
+
+      const photo = `https://ui-avatars.com/api/?name=${data.name}&length=1`;
+      const userLogged = {
+        ...data,
+        photo,
+      }
+      setUser(userLogged);
+      await AsyncStorage.setItem(userStoredKey, JSON.stringify(userLogged));
+
     } catch (error) {
       throw new Error(error as string);
     }

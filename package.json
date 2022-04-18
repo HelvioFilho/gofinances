@@ -25,6 +25,7 @@
     "expo-device": "~4.1.0",
     "expo-font": "~10.0.4",
     "expo-random": "~12.1.1",
+    "expo-secure-store": "~11.1.0",
     "expo-splash-screen": "~0.14.1",
     "expo-status-bar": "~1.2.0",
     "intl": "^1.2.5",

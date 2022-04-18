@@ -69,6 +69,7 @@ export function SignIn() {
       <Footer>
         <FooterWrapper>
           <SingInSocialButton
+            activeOpacity={0.9}
             title="Entrar com Google"
             svg={GoogleSvg}
             onPress={handleSignWithGoogle}
@@ -76,6 +77,7 @@ export function SignIn() {
           {
             Platform.OS === 'ios' &&
             <SingInSocialButton
+              activeOpacity={0.9}
               title="Entrar com Apple"
               svg={AppleSvg}
               onPress={handleSignInWithApple}
