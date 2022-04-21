@@ -6,8 +6,29 @@
     "slug": "gofinances",
     "scheme": "gofinances",
     "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#161616"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "description": "This project is part of the RocketSeat course and shows using AsyncStorage to store data, Yup for form validation, victory native to generate charts and the social login with google and apple.",
+    "githubUrl": "https://github.com/HelvioFilho/gofinances"
   }
 }
