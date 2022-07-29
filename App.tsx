@@ -1,8 +1,9 @@
 import 'react-native-gesture-handler';
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StatusBar } from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
 import { ThemeProvider } from 'styled-components';
 import {
@@ -27,8 +28,13 @@ export default function App() {
 
   const { userStorageLoading } = useAuth();
 
-  if (!fontsLoaded || userStorageLoading) return <AppLoading />
+  useEffect(() => {
+    if (!fontsLoaded || userStorageLoading)
+      SplashScreen.hide();
+  },[fontsLoaded]);
 
+  // if (!fontsLoaded || userStorageLoading) return <AppLoading />
+  
   return (
     <ThemeProvider theme={theme}>
 
