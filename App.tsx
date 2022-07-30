@@ -29,15 +29,15 @@ export default function App() {
   const { userStorageLoading } = useAuth();
 
   useEffect(() => {
-    if (!fontsLoaded || userStorageLoading)
+    if(fontsLoaded) {
       SplashScreen.hide();
+    }
   },[fontsLoaded]);
-
-  // if (!fontsLoaded || userStorageLoading) return <AppLoading />
+  
+  if (!fontsLoaded || userStorageLoading) return <AppLoading />
   
   return (
     <ThemeProvider theme={theme}>
-
       <StatusBar
         barStyle="light-content"
         backgroundColor={theme.colors.primary}
